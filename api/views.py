@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
-from .serializers import SignUpSerializer
+from .serializers import SignUpSerializer, EventSerializer
 from django.contrib.auth.models import User
+from .models import Event
 
 
 class SignUpCreateAPIView(generics.CreateAPIView):
@@ -18,3 +19,10 @@ class SignUpCreateAPIView(generics.CreateAPIView):
             password=password,
         )
         return user
+    
+    
+
+class EventsListAPIView(generics.ListCreateAPIView):
+    serializer_class = EventSerializer
+    queryset = Event.objects.all().order_by('event_id') 
+    permission_classes = (AllowAny,)
