@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Event
+from .models import Event, Date
 
 
 class SignUpSerializer(serializers.ModelSerializer):
@@ -10,8 +10,14 @@ class SignUpSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
         
 
+class DateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Date
+        fields = ['date']  # Adjust fields according to your Date model
+
 class EventSerializer(serializers.ModelSerializer):
+    dates = DateSerializer(many=True, read_only=True)  # Ensure 'dates' is the related name in the Event model
+
     class Meta:
         model = Event
-        fields = '__all__'
-        extra_kwargs = {'event_id': {'read_only': True}}
+        fields = ['event_id', 'name', 'img', 'address', 'category', 'price', 'contact', 'description', 'dates']
