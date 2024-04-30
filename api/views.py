@@ -24,5 +24,7 @@ class SignUpCreateAPIView(generics.CreateAPIView):
 
 class EventsListAPIView(generics.ListCreateAPIView):
     serializer_class = EventSerializer
-    queryset = Event.objects.all().order_by('event_id') 
+    queryset = Event.objects.all().order_by('event_id').prefetch_related('dates')
     permission_classes = (AllowAny,)
+    
+    
