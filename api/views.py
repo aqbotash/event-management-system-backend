@@ -27,4 +27,8 @@ class EventsListAPIView(generics.ListCreateAPIView):
     queryset = Event.objects.all().order_by('event_id').prefetch_related('dates')
     permission_classes = (AllowAny,)
     
-    
+
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Event.objects.all().order_by('event_id').prefetch_related('dates')
+    serializer_class = EventSerializer
+    lookup_field = 'event_id'
